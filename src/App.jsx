@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { CRIPTO_LIST } from "./constants";
 import MainDetail from "./components/MainDetail";
 import NewsFeed from "./components/NewsFeed";
 import SideList from "./components/SideList";
+import useFetch from "./hooks/useFetch";
 
 //////////////////////////////////////////////////
 //                                              //
@@ -12,15 +13,20 @@ import SideList from "./components/SideList";
 //////////////////////////////////////////////////
 
 function App() {
-  const [cryptoList, setCryptoList] = useState([]);
+  const url = CRIPTO_LIST
+  const cryptoList = useFetch(url);
+  // const [cryptoList, setCryptoList] = useState([]);
   const [selectedCrypto, setSelectedCripto] = useState(null);
 
   // You can turn this into a custom hook////////////////////
-  useEffect(() => {
-    fetch(CRIPTO_LIST)
-      .then((resp) => resp.json())
-      .then(setCryptoList);
-  }, [setCryptoList]);
+  
+
+
+  // useEffect(() => {
+  //   fetch(CRIPTO_LIST)
+  //     .then((resp) => resp.json())
+  //     .then(setCryptoList);
+  // }, []);
   ///////////////////////////////////////////////////////////
 
   function selectCrypto(selectedId) {
@@ -32,11 +38,11 @@ function App() {
   }
 
   function updateCryptoData(data, id) {
-    setCryptoList((cryptoList) =>
+    // setCryptoList((cryptoList) =>
       cryptoList.map((crypto) =>
         crypto.id === id ? { ...crypto, ...data } : crypto
       )
-    );
+    ;
   }
 
   function isSelectedCrypto(id) {
